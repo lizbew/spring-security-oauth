@@ -87,7 +87,15 @@ public class ClientCredentialsTokenEndpointFilter extends AbstractAuthentication
 
 		String clientId = request.getParameter("client_id");
 		String clientSecret = request.getParameter("client_secret");
-
+		
+		//weixin use appid/secret
+		if (clientId == null) {
+		  clientId = request.getParameter("appid");
+		}
+		if (clientSecret == null) {
+		  clientSecret = request.getParameter("secret");
+		}
+		
 		// If the request is already authenticated we can assume that this filter is not needed
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null && authentication.isAuthenticated()) {

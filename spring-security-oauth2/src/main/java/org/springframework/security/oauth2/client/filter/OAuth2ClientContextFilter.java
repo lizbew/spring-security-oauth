@@ -91,7 +91,17 @@ public class OAuth2ClientContextFilter implements Filter, InitializingBean {
 			HttpServletResponse response) throws IOException {
 
 		String redirectUri = e.getRedirectUri();
-		StringBuilder builder = new StringBuilder(redirectUri);
+		//vika - enhance it to support fragment
+		String pathQueryUri = redirectUri;
+		String fragment = "";
+		int fragInx = redirectUri.indexOf('#');
+		if (fragInx > 0) {
+		  pathQueryUri = redirectUri.substring(0, fragInx);
+		  fragment = redirectUri.substring(fragInx);
+		}
+		
+		
+		StringBuilder builder = new StringBuilder(pathQueryUri);
 		Map<String, String> requestParams = e.getRequestParams();
 		char appendChar = redirectUri.indexOf('?') < 0 ? '?' : '&';
 		for (Map.Entry<String, String> param : requestParams.entrySet()) {
@@ -108,7 +118,7 @@ public class OAuth2ClientContextFilter implements Filter, InitializingBean {
 		if (e.getStateKey() != null) {
 			builder.append(appendChar).append("state").append('=').append(e.getStateKey());
 		}
-
+		builder.append(fragment);
 		this.redirectStrategy.sendRedirect(request, response, builder.toString());
 
 	}

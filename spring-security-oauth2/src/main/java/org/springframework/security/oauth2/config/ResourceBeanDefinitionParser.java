@@ -30,6 +30,7 @@ import org.springframework.security.oauth2.client.token.grant.client.ClientCrede
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.security.oauth2.client.token.grant.wx.AuthorizationCodeResourceWxDetails;
 import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.util.StringUtils;
@@ -55,6 +56,9 @@ public class ResourceBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
 		if ("password".equals(type)) {
 			return ResourceOwnerPasswordResourceDetails.class;
 		}
+		if (AuthorizationCodeResourceWxDetails.WX_GRANT_TYPE.equals(type)) {
+      return AuthorizationCodeResourceWxDetails.class;
+    }
 		return BaseOAuth2ProtectedResourceDetails.class;
 	}
 
@@ -185,7 +189,7 @@ public class ResourceBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
 	}
 
 	private boolean needsUserAuthorizationUri(String type) {
-		return type.equals("authorization_code") || type.equals("implicit");
+		return type.equals("authorization_code") || type.equals("implicit") || type.equals("authorization_code_wx");
 	}
 
 }

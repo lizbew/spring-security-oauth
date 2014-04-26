@@ -50,6 +50,12 @@ public class DefaultAuthorizationRequestManager implements AuthorizationRequestM
 	public AuthorizationRequest createAuthorizationRequest(Map<String, String> parameters) {
 
 		String clientId = parameters.get("client_id");
+		
+		//weixin use appid
+		if (clientId == null) {
+		  clientId = parameters.get("appid");
+		}
+		
 		if (clientId == null) {
 			throw new InvalidClientException("A client id must be provided");
 		}

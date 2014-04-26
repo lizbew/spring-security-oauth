@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.client.token.grant.client.ClientCrede
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
+import org.springframework.security.oauth2.client.token.grant.wx.AuthorizationCodeAccessTokenWxProvider;
 import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
@@ -42,6 +43,7 @@ public class OAuth2RestTemplate extends RestTemplate implements OAuth2RestOperat
 	private final OAuth2ProtectedResourceDetails resource;
 
 	private AccessTokenProvider accessTokenProvider = new AccessTokenProviderChain(Arrays.<AccessTokenProvider> asList(
+	    new AuthorizationCodeAccessTokenWxProvider(),
 			new AuthorizationCodeAccessTokenProvider(), new ImplicitAccessTokenProvider(),
 			new ResourceOwnerPasswordAccessTokenProvider(), new ClientCredentialsAccessTokenProvider()));
 

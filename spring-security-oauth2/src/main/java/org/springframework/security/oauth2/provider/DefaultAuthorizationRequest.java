@@ -39,8 +39,19 @@ public class DefaultAuthorizationRequest implements AuthorizationRequest, Serial
 	private String resolvedRedirectUri;
 
 	public DefaultAuthorizationRequest(Map<String, String> authorizationParameters) {
+	  
 		this(authorizationParameters, Collections.<String, String> emptyMap(), authorizationParameters.get(CLIENT_ID),
 				OAuth2Utils.parseParameterList(authorizationParameters.get("scope")), null, null, false);
+		
+	//weixin use appid
+    String client_id = authorizationParameters.get(CLIENT_ID);
+    if (client_id == null) {
+      client_id = authorizationParameters.get("appid");
+      if (client_id != null) {
+        this.authorizationParameters.put(CLIENT_ID, client_id);
+      }
+    }
+    
 	}
 
 	public DefaultAuthorizationRequest(Map<String, String> authorizationParameters,
