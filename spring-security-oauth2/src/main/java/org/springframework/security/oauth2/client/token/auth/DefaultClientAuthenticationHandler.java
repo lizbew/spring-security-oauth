@@ -40,9 +40,12 @@ public class DefaultClientAuthenticationHandler implements ClientAuthenticationH
 					break;
 				case form:
 				case query:
+				  //added for weixin appid/secret
 					form.set("client_id", resource.getClientId());
+					form.set("appid", resource.getClientId());
 					if (StringUtils.hasText(clientSecret)) {
 						form.set("client_secret", clientSecret);
+						form.set("secret", clientSecret);
 					}
 					break;
 				default:
